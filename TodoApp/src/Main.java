@@ -7,6 +7,7 @@ import java.util.List;
 public class Main {
   public final static String SEPARATOR = ";";
   public final static String TASKPATH = "Tasks.txt";
+
   public static void main(String[] args) {
     if (args.length == 0){
       printUsage();
@@ -23,13 +24,25 @@ public class Main {
         System.out.println("Index is not a number");
       }
     } else if (args[0].equals("-c")) {
-      nowIsDone(Integer.parseInt(args[1]));
+      try {
+        nowIsDone(Integer.parseInt(args[1]));
+      } catch (IndexOutOfBoundsException iob) {
+        System.out.println("Index is out of bounds");
+      } catch (NumberFormatException nfe) {
+        System.out.println("Index is not a number");
+      }
     } else if (args[0].equals("-s")) {
-      checkStatus(Integer.parseInt(args[1]));
+      try {
+        checkStatus(Integer.parseInt(args[1]));
+      } catch (IndexOutOfBoundsException iob) {
+        System.out.println("Index is out of bounds");
+      } catch (NumberFormatException nfe) {
+        System.out.println("Index is not a number");
+      }
     } else if (args[0].equals("-h")) {
       printHelp();
     } else {
-      System.out.println("Oops!! Unable to perform the action because of the wrong input format. Please check the -h option for correct format recommendations.");
+      System.out.println("Oops!! Unable to perform the action because of the wrong input format. Please check the \"-h\" option for correct format recommendations.");
     }
   }
 
