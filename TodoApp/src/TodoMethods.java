@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TodoMethods {
   public final static String SEPARATOR = ";";
-  public final static String TASKPATH = "Tasks.txt";
+  public  String taskPath;
 
   public void printUsage() {
     Path usage = Paths.get("Usage.txt");
@@ -22,7 +22,7 @@ public class TodoMethods {
   }
 
   public void printAllTasks() {
-    Path tasks = Paths.get(TASKPATH);
+    Path tasks = Paths.get(taskPath);
     try {
       List<String> taskList = Files.readAllLines(tasks);
       if (taskList.size() == 0) {
@@ -38,7 +38,7 @@ public class TodoMethods {
   }
 
   public void printPendingTasks() {
-    Path tasks = Paths.get(TASKPATH);
+    Path tasks = Paths.get(taskPath);
     try {
       List<String> taskList = Files.readAllLines(tasks);
       List<String> pendingTasks = new ArrayList<>();
@@ -58,7 +58,7 @@ public class TodoMethods {
   }
 
   public void addTask(String task) {
-    Path tasks = Paths.get(TASKPATH);
+    Path tasks = Paths.get(taskPath);
     try {
       List<String> taskList = Files.readAllLines(tasks);
       String finalTask = task + ";pending";
@@ -71,7 +71,7 @@ public class TodoMethods {
 
   public void removeTask(int task) {
     try {
-      Path tasks = Paths.get(TASKPATH);
+      Path tasks = Paths.get(taskPath);
       try {
         List<String> taskList = Files.readAllLines(tasks);
         if (taskList.size() <= 2) {
@@ -101,7 +101,7 @@ public class TodoMethods {
 
   public void nowIsDone(int orderNumber) {
     try {
-      Path tasks = Paths.get(TASKPATH);
+      Path tasks = Paths.get(taskPath);
       try {
         List<String> taskList = Files.readAllLines(tasks);
         String[] subList = taskList.get(orderNumber - 1).split(SEPARATOR);
@@ -120,7 +120,7 @@ public class TodoMethods {
 
   public void checkStatus(int orderNumber) {
     try {
-      Path tasks = Paths.get(TASKPATH);
+      Path tasks = Paths.get(taskPath);
       try {
         List<String> taskList = Files.readAllLines(tasks);
         String[] subList = taskList.get(orderNumber - 1).split(SEPARATOR);
@@ -154,5 +154,9 @@ public class TodoMethods {
     } catch (IOException e) {
       System.out.println("Something wrong with help file");
     }
+  }
+
+  public TodoMethods(String taskPath){
+    this.taskPath = taskPath;
   }
 }
