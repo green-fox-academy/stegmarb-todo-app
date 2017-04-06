@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Main {
+  public final static String SEPARATOR = ";";
   public static void main(String[] args) {
     if (args.length == 0){
       printUsage();
@@ -30,14 +31,14 @@ public class Main {
   }
 
   public static void printTasks() {
-    Path tasks = Paths.get("Tasks.txt");
+    Path tasks = Paths.get("Tasks.csv");
     try {
       List<String> taskList = Files.readAllLines(tasks);
       if (taskList.size() == 0) {
         System.out.println("No todos for today! :)");
       } else {
         for (int i = 0; i < taskList.size(); i++) {
-          System.out.println(i + 1 + " - " + taskList.get(i));
+          System.out.println(i + 1 + " - " + isDone(taskList.get(i)) + " " + taskList.get(i));
         }
       }
     } catch (IOException e) {
@@ -46,7 +47,7 @@ public class Main {
   }
 
   public static void addTask(String task) {
-    Path tasks = Paths.get("Tasks.txt");
+    Path tasks = Paths.get("Tasks.csv");
     try {
       List<String> taskList = Files.readAllLines(tasks);
       taskList.add(task);
@@ -57,7 +58,7 @@ public class Main {
   }
 
   public static void removeTask(int task) {
-    Path tasks = Paths.get("Tasks.txt");
+    Path tasks = Paths.get("Tasks.csv");
     try {
       List<String> taskList = Files.readAllLines(tasks);
       if (taskList.size() <= 2) {
@@ -68,6 +69,16 @@ public class Main {
       Files.write(tasks, taskList);
     } catch (IOException e) {
       System.out.println("Something wrong with tasks file");
+    }
+  }
+
+  public static String isDone(String task) {
+    String[] subList = task.split(SEPARATOR);
+//      System.out.println(subList[1]);
+    if (subList[1].equals("true")) {
+      return "[X]";
+    } else {
+      return "[ ]";
     }
   }
 }
