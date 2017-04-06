@@ -11,8 +11,8 @@ public class Main {
       printUsage();
     } else if (args[0].equals("-l")) {
       printTasks();
-    } else if (args[0].equals("-a") && args.length == 2) {
-      addTask(args[1]);
+    } else if (args[0].equals("-a") && args.length == 3) {
+      addTask(args[1], args[2]);
     } else if (args[0].equals("-r")) {
       removeTask(Integer.parseInt(args[1]));
     }
@@ -38,7 +38,7 @@ public class Main {
         System.out.println("No todos for today! :)");
       } else {
         for (int i = 0; i < taskList.size(); i++) {
-          System.out.println(i + 1 + " - " + isDone(taskList.get(i)) + " " + taskList.get(i));
+          System.out.println(i + 1 + " - " + isDone(taskList.get(i)) + " " + onlyTask(taskList.get(i)));
         }
       }
     } catch (IOException e) {
@@ -46,11 +46,12 @@ public class Main {
     }
   }
 
-  public static void addTask(String task) {
+  public static void addTask(String task, String done) {
     Path tasks = Paths.get("Tasks.csv");
     try {
       List<String> taskList = Files.readAllLines(tasks);
-      taskList.add(task);
+      String finalTask = task + ";" + done;
+      taskList.add(finalTask);
       Files.write(tasks, taskList);
     } catch (IOException e) {
       System.out.println("Something wrong with tasks file");
@@ -74,11 +75,15 @@ public class Main {
 
   public static String isDone(String task) {
     String[] subList = task.split(SEPARATOR);
-//      System.out.println(subList[1]);
     if (subList[1].equals("true")) {
       return "[X]";
     } else {
       return "[ ]";
     }
+  }
+
+  public static String onlyTask(String task) {
+    String[] subTasks = task.split(SEPARATOR);
+    return subTasks[0];
   }
 }
