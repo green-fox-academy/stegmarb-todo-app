@@ -9,7 +9,7 @@ public class Main {
     if (args.length == 0){
       printUsage();
     } else if (args[0].equals("-l")) {
-      printTasks();
+      printTasks("EmptyTasks.txt");
     }
   }
 
@@ -25,12 +25,16 @@ public class Main {
     }
   }
 
-  public static void printTasks() {
-    Path tasks = Paths.get("Tasks.txt");
+  public static void printTasks(String filenae) {
+    Path tasks = Paths.get(filenae);
     try {
       List<String> taskList = Files.readAllLines(tasks);
-      for (int i = 0; i < taskList.size(); i++) {
-        System.out.println(i+1 + " - " + taskList.get(i));
+      if (taskList.size() == 0) {
+        System.out.println("No todos for today! :)");
+      } else {
+        for (int i = 0; i < taskList.size(); i++) {
+          System.out.println(i + 1 + " - " + taskList.get(i));
+        }
       }
     } catch (IOException e) {
       System.out.println("Something wrong with tasks file");
