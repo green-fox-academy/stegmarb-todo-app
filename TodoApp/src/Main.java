@@ -15,6 +15,8 @@ public class Main {
       addTask(args[1], args[2]);
     } else if (args[0].equals("-r")) {
       removeTask(Integer.parseInt(args[1]));
+    } else if (args[0].equals("-c")) {
+      isDone(Integer.parseInt(args[1]));
     }
   }
 
@@ -38,7 +40,7 @@ public class Main {
         System.out.println("No todos for today! :)");
       } else {
         for (int i = 0; i < taskList.size(); i++) {
-          System.out.println(i + 1 + " - " + isDone(taskList.get(i)) + " " + onlyTask(taskList.get(i)));
+          System.out.println(i + 1 + " - " + isDoneToString(taskList.get(i)) + " " + onlyTask(taskList.get(i)));
         }
       }
     } catch (IOException e) {
@@ -73,12 +75,27 @@ public class Main {
     }
   }
 
-  public static String isDone(String task) {
+  public static String isDoneToString(String task) {
     String[] subList = task.split(SEPARATOR);
     if (subList[1].equals("true")) {
       return "[X]";
     } else {
       return "[ ]";
+    }
+  }
+
+  public static void isDone(int orderNumber) {
+    Path tasks = Paths.get("Tasks.csv");
+    try {
+      List<String> taskList = Files.readAllLines(tasks);
+      String[] subList = taskList.get(orderNumber-1).split(SEPARATOR);
+      if (subList[1].equals("true")) {
+        System.out.println("The \"" + subList[0] + "\" task is done!");
+      } else {
+        System.out.println("The \"" + subList[0] + "\" task hasn't done yet!");
+      }
+    } catch (IOException e) {
+      System.out.println("Something wrong with tasks file");
     }
   }
 
