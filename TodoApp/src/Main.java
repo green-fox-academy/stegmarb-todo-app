@@ -6,20 +6,30 @@ import java.util.List;
 
 public class Main {
   public final static String SEPARATOR = ";";
-  public final static String TASKPATH = "Tasks.csv";
+  public final static String TASKPATH = "Tasks.txt";
   public static void main(String[] args) {
     if (args.length == 0){
       printUsage();
     } else if (args[0].equals("-l")) {
       printTasks();
-    } else if (args[0].equals("-a") && args.length == 3) {
-      addTask(args[1], args[2]);
+    } else if (args[0].equals("-a") && args.length == 2) {
+      addTask(args[1]);
     } else if (args[0].equals("-r")) {
-      removeTask(Integer.parseInt(args[1]));
+      try {
+        removeTask(Integer.parseInt(args[1]));
+      } catch (IndexOutOfBoundsException iob) {
+        System.out.println("Index is out of bounds");
+      } catch (NumberFormatException nfe) {
+        System.out.println("Index is not a number");
+      }
     } else if (args[0].equals("-c")) {
       nowIsDone(Integer.parseInt(args[1]));
+    } else if (args[0].equals("-s")) {
+      checkStatus(Integer.parseInt(args[1]));
     } else if (args[0].equals("-h")) {
       printHelp();
+    } else {
+      System.out.println("Oops!! Unable to perform the action because of the wrong input format. Please check the -h option for correct format recommendations.");
     }
   }
 
@@ -51,11 +61,11 @@ public class Main {
     }
   }
 
-  public static void addTask(String task, String done) {
+  public static void addTask(String task) {
     Path tasks = Paths.get(TASKPATH);
     try {
       List<String> taskList = Files.readAllLines(tasks);
-      String finalTask = task + ";" + done;
+      String finalTask = task + ";pending";
       taskList.add(finalTask);
       Files.write(tasks, taskList);
     } catch (IOException e) {
@@ -80,7 +90,7 @@ public class Main {
 
   public static String isDoneToString(String task) {
     String[] subList = task.split(SEPARATOR);
-    if (subList[1].equals("true")) {
+    if (subList[1].equals("done")) {
       return "[X]";
     } else {
       return "[ ]";
@@ -92,14 +102,24 @@ public class Main {
     try {
       List<String> taskList = Files.readAllLines(tasks);
       String[] subList = taskList.get(orderNumber-1).split(SEPARATOR);
-      subList[1] = "true";
+      subList[1] = "done";
       taskList.set(orderNumber-1, subList[0] + ";" + subList[1]);
       Files.write(tasks, taskList);
-//      if (subList[1].equals("true")) {
-//        System.out.println("The \"" + subList[0] + "\" task is done!");
-//      } else {
-//        System.out.println("The \"" + subList[0] + "\" task hasn't done yet!");
-//      }
+    } catch (IOException e) {
+      System.out.println("Something wrong with tasks file");
+    }
+  }
+
+  public static void checkStatus(int orderNumber) {
+    Path tasks = Paths.get(TASKPATH);
+    try {
+      List<String> taskList = Files.readAllLines(tasks);
+      String[] subList = taskList.get(orderNumber - 1).split(SEPARATOR);
+      if (subList[1].equals("done")) {
+        System.out.println("The \"" + subList[0] + "\" task is done!");
+      } else {
+        System.out.println("The \"" + subList[0] + "\" task is pending!");
+      }
     } catch (IOException e) {
       System.out.println("Something wrong with tasks file");
     }
