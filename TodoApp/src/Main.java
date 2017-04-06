@@ -8,6 +8,8 @@ public class Main {
   public static void main(String[] args) {
     if (args.length == 0){
       printUsage();
+    } else if (args[0].equals("-l")) {
+      printTasks();
     }
   }
 
@@ -20,6 +22,18 @@ public class Main {
       }
     } catch (IOException e) {
       System.out.println("Something wrong with usage file");
+    }
+  }
+
+  public static void printTasks() {
+    Path tasks = Paths.get("Tasks.txt");
+    try {
+      List<String> taskList = Files.readAllLines(tasks);
+      for (int i = 0; i < taskList.size(); i++) {
+        System.out.println(i+1 + " - " + taskList.get(i));
+      }
+    } catch (IOException e) {
+      System.out.println("Something wrong with tasks file");
     }
   }
 }
