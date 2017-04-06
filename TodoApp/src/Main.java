@@ -12,6 +12,8 @@ public class Main {
       printTasks();
     } else if (args[0].equals("-a") && args.length == 2) {
       addTask(args[1]);
+    } else if (args[0].equals("-r")) {
+      removeTask(Integer.parseInt(args[1]));
     }
   }
 
@@ -48,6 +50,21 @@ public class Main {
     try {
       List<String> taskList = Files.readAllLines(tasks);
       taskList.add(task);
+      Files.write(tasks, taskList);
+    } catch (IOException e) {
+      System.out.println("Something wrong with tasks file");
+    }
+  }
+
+  public static void removeTask(int task) {
+    Path tasks = Paths.get("Tasks.txt");
+    try {
+      List<String> taskList = Files.readAllLines(tasks);
+      if (taskList.size() <= 2) {
+        return;
+      } else {
+        taskList.remove(task - 1);
+      }
       Files.write(tasks, taskList);
     } catch (IOException e) {
       System.out.println("Something wrong with tasks file");
