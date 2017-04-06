@@ -52,6 +52,8 @@ public class TodoMethods {
       for (int i = 0; i < pendingTasks.size(); i++) {
         System.out.println(i + 1 + " - " + isDoneToString(pendingTasks.get(i)) + " " + onlyTask(pendingTasks.get(i)));
       }
+      System.out.println("\n!!!Don't forget, that the removal option takes into account the numbering of AllTasks!!!\n" +
+              "Call the -la option before using it!!!");
     }catch(IOException e) {
       System.out.println("Something wrong with tasks file");
     }
