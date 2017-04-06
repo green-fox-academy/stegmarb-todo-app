@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -11,8 +12,10 @@ public class Main {
   public static void main(String[] args) {
     if (args.length == 0){
       printUsage();
+    } else if (args[0].equals("-la")) {
+      printAllTasks();
     } else if (args[0].equals("-l")) {
-      printTasks();
+      printPendingTasks();
     } else if (args[0].equals("-a") && args.length == 2) {
       addTask(args[1]);
     } else if (args[0].equals("-r")) {
@@ -58,7 +61,7 @@ public class Main {
     }
   }
 
-  public static void printTasks() {
+  public static void printAllTasks() {
     Path tasks = Paths.get(TASKPATH);
     try {
       List<String> taskList = Files.readAllLines(tasks);
@@ -70,6 +73,26 @@ public class Main {
         }
       }
     } catch (IOException e) {
+      System.out.println("Something wrong with tasks file");
+    }
+  }
+
+  public static void printPendingTasks() {
+    Path tasks = Paths.get(TASKPATH);
+    try {
+      List<String> taskList = Files.readAllLines(tasks);
+      List<String> pendingTasks = new ArrayList<>();
+      for (int i = 0; i < taskList.size(); i++) {
+        String[] subList = taskList.get(i).split(SEPARATOR);
+        if (subList[1].equals("pending")) {
+          pendingTasks.add(taskList.get(i));
+        }
+      }
+      Files.write(Paths.get("PendingTasks.txt"), pendingTasks);
+      for (int i = 0; i < pendingTasks.size(); i++) {
+        System.out.println(i + 1 + " - " + isDoneToString(pendingTasks.get(i)) + " " + onlyTask(pendingTasks.get(i)));
+      }
+    }catch(IOException e) {
       System.out.println("Something wrong with tasks file");
     }
   }
