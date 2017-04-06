@@ -1,6 +1,4 @@
 *.iml
 *.class
 *.idea
-Usage.txt
-Tasks.txt
-EmptyTasks.txt
+*.txt

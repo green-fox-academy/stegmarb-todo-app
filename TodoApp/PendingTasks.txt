@@ -1,4 +1,3 @@
 Walk the dog;pending
-Do homework;pending
-Go to pharmacy;pending
 Buy some cosmetics;pending
+watch TV;pending
