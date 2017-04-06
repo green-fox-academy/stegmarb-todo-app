@@ -1,8 +1,19 @@
 public class Main {
+  private static String userName;
   public static void main(String[] args) {
-
-    TodoThread user = new TodoThread("Tasks.txt");
+    userName = args[0];
+    UserManager manager = new UserManager(userName);
+    manager.checkUser(userName);
+    TodoThread user =(manager.getUsers().get(userName));
+    user.setUserName(userName);
     user.application(args);
+  }
+
+  public static String getUserName() {
+    return userName;
+  }
+
+  public Main() {
   }
 }
 

@@ -1,22 +1,23 @@
 public class TodoThread extends TodoMethods {
-  private String[] args;
+  private String userName;
+  private String userPath = userName + ".txt";
 
   public void application(String[] todo) {
-    if (todo.length == 0) {
+    if (todo.length == 1 && todo[0] == userName ) {
       printUsage();
-    } else if (todo[0].equals("-la")) {
+    } else if (todo[1].equals("-la")) {
       printAllTasks();
-    } else if (todo[0].equals("-l")) {
+    } else if (todo[1].equals("-l")) {
       printPendingTasks();
-    } else if (todo[0].equals("-a") && todo.length == 2) {
-      addTask(todo[1]);
-    } else if (todo[0].equals("-r")) {
-      removeTask(Integer.parseInt(todo[1]));
-    } else if (todo[0].equals("-c")) {
-      nowIsDone(Integer.parseInt(todo[1]));
-    } else if (todo[0].equals("-s")) {
-      checkStatus(Integer.parseInt(todo[1]));
-    } else if (todo[0].equals("-h")) {
+    } else if (todo[1].equals("-a")) {
+      addTask(todo[2]);
+    } else if (todo[1].equals("-r")) {
+      removeTask(Integer.parseInt(todo[2]));
+    } else if (todo[1].equals("-c")) {
+      nowIsDone(Integer.parseInt(todo[2]));
+    } else if (todo[1].equals("-s")) {
+      checkStatus(Integer.parseInt(todo[2]));
+    } else if (todo[1].equals("-h")) {
       printHelp();
     } else {
       System.out.println("Oops!! Unable to perform the action because of the wrong input format.\n" +
@@ -25,5 +26,9 @@ public class TodoThread extends TodoMethods {
   }
   public TodoThread(String taskPath) {
     super(taskPath);
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 }

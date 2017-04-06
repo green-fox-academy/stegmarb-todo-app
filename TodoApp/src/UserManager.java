@@ -8,13 +8,17 @@ public class UserManager {
   private String userName;
 
   public void addUser(String userName) {
-    users.put(userName, new TodoThread(taskTxtCreator(userName)));
+    this.users.put(userName, new TodoThread(taskTxtCreator(userName)));
   }
 
   public void checkUser(String userName) {
-    for (int i = 0; i < users.size(); i++) {
-      if (!users.containsKey(userName)) {
-        addUser(userName);
+    if (users.size() == 0) {
+      addUser(userName);
+    } else {
+      for (int i = 0; i < users.size(); i++) {
+        if (!users.containsKey(userName)) {
+          addUser(userName);
+        }
       }
     }
   }
@@ -30,8 +34,13 @@ public class UserManager {
     }
     return textName;
   }
+
   public UserManager(String userName){
     this.users = new HashMap<>();
     this.userName = userName;
+  }
+
+  public HashMap<String, TodoThread> getUsers() {
+    return users;
   }
 }

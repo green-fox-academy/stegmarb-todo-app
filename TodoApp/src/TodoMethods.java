@@ -64,7 +64,11 @@ public class TodoMethods {
     try {
       List<String> taskList = Files.readAllLines(tasks);
       String finalTask = task + ";pending";
-      taskList.add(finalTask);
+      if (taskList.size() == 0) {
+        taskList.add(0, finalTask);
+      } else {
+        taskList.add(finalTask);
+      }
       Files.write(tasks, taskList);
     } catch (IOException e) {
       System.out.println("Something wrong with tasks file");
