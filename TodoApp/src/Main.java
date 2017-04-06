@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Main {
   public final static String SEPARATOR = ";";
+  public final static String TASKPATH = "Tasks.csv";
   public static void main(String[] args) {
     if (args.length == 0){
       printUsage();
@@ -16,7 +17,7 @@ public class Main {
     } else if (args[0].equals("-r")) {
       removeTask(Integer.parseInt(args[1]));
     } else if (args[0].equals("-c")) {
-      isDone(Integer.parseInt(args[1]));
+      nowIsDone(Integer.parseInt(args[1]));
     } else if (args[0].equals("-h")) {
       printHelp();
     }
@@ -35,7 +36,7 @@ public class Main {
   }
 
   public static void printTasks() {
-    Path tasks = Paths.get("Tasks.csv");
+    Path tasks = Paths.get(TASKPATH);
     try {
       List<String> taskList = Files.readAllLines(tasks);
       if (taskList.size() == 0) {
@@ -51,7 +52,7 @@ public class Main {
   }
 
   public static void addTask(String task, String done) {
-    Path tasks = Paths.get("Tasks.csv");
+    Path tasks = Paths.get(TASKPATH);
     try {
       List<String> taskList = Files.readAllLines(tasks);
       String finalTask = task + ";" + done;
@@ -63,7 +64,7 @@ public class Main {
   }
 
   public static void removeTask(int task) {
-    Path tasks = Paths.get("Tasks.csv");
+    Path tasks = Paths.get(TASKPATH);
     try {
       List<String> taskList = Files.readAllLines(tasks);
       if (taskList.size() <= 2) {
@@ -86,16 +87,19 @@ public class Main {
     }
   }
 
-  public static void isDone(int orderNumber) {
-    Path tasks = Paths.get("Tasks.csv");
+  public static void nowIsDone(int orderNumber) {
+    Path tasks = Paths.get(TASKPATH);
     try {
       List<String> taskList = Files.readAllLines(tasks);
       String[] subList = taskList.get(orderNumber-1).split(SEPARATOR);
-      if (subList[1].equals("true")) {
-        System.out.println("The \"" + subList[0] + "\" task is done!");
-      } else {
-        System.out.println("The \"" + subList[0] + "\" task hasn't done yet!");
-      }
+      subList[1] = "true";
+      taskList.set(orderNumber-1, subList[0] + ";" + subList[1]);
+      Files.write(tasks, taskList);
+//      if (subList[1].equals("true")) {
+//        System.out.println("The \"" + subList[0] + "\" task is done!");
+//      } else {
+//        System.out.println("The \"" + subList[0] + "\" task hasn't done yet!");
+//      }
     } catch (IOException e) {
       System.out.println("Something wrong with tasks file");
     }
