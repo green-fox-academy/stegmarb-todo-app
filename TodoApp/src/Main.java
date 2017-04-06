@@ -17,6 +17,8 @@ public class Main {
       removeTask(Integer.parseInt(args[1]));
     } else if (args[0].equals("-c")) {
       isDone(Integer.parseInt(args[1]));
+    } else if (args[0].equals("-h")) {
+      printHelp();
     }
   }
 
@@ -102,5 +104,17 @@ public class Main {
   public static String onlyTask(String task) {
     String[] subTasks = task.split(SEPARATOR);
     return subTasks[0];
+  }
+
+  public static void printHelp() {
+    Path usage = Paths.get("Help.txt");
+    try {
+      List<String> usageText = Files.readAllLines(usage);
+      for (int i = 0; i < usageText.size(); i++) {
+        System.out.println(usageText.get(i));
+      }
+    } catch (IOException e) {
+      System.out.println("Something wrong with help file");
+    }
   }
 }
