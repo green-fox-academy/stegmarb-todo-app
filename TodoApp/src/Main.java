@@ -8,12 +8,5 @@ public class Main {
     user.setUserName(userName);
     user.application(args);
   }
-
-  public static String getUserName() {
-    return userName;
-  }
-
-  public Main() {
-  }
 }
 

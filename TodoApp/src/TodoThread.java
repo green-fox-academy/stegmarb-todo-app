@@ -24,6 +24,7 @@ public class TodoThread extends TodoMethods {
               "Please check the \"-h\" option for correct format recommendations.");
     }
   }
+
   public TodoThread(String taskPath) {
     super(taskPath);
   }
