@@ -3,7 +3,7 @@ public class Main {
   public static void main(String[] args) {
     userName = args[0];
     UserManager manager = new UserManager(userName);
-    manager.checkUser(userName);
+    manager.checkUser();
     TodoThread user =(manager.getUsers().get(userName));
     user.setUserName(userName);
     user.application(args);

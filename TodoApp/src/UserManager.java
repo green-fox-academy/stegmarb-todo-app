@@ -8,26 +8,29 @@ public class UserManager {
   private HashMap<String, TodoThread> users = new HashMap<>();
   private String userName;
 
-  public void checkUser(String userName) {
+  public void checkUser() {
     Path hashMap = Paths.get("Users.txt");
     try {
       List<String> userList = Files.readAllLines(hashMap);
       if (userList.size() == 0) {
         addUser(userName);
-      } else {
-        for (int i = 0; i < userList.size(); i++) {
-          this.users.put(userList.get(i), new TodoThread(userList.get(i) + ".txt"));
-        }
-        for (int i = 0; i < users.size(); i++) {
-          if (!users.containsKey(userName)) {
-            addUser(userName);
+        userList.add(userName);
+      } else if (userList.size() > 0) {
+        int count = 0;
+        for (int i = 0; i < userList.size() ; i++) {
+          if (userList.get(i).equals(userName)) {
+            count++;
           }
         }
+        if (count == 0) {
+            addUser(userName);
+            userList.add(userName);
+        } else {
+          this.users.put(userName, new TodoThread(userName + ".txt"));
+        }
       }
-      List<String> storedUsers = new ArrayList<>();
-      storedUsers.add(userName);
       try {
-        Files.write(hashMap, storedUsers);
+        Files.write(hashMap, userList);
       } catch (IOException e) {
         System.out.println("User data can not be saved");
       }
