@@ -39,7 +39,6 @@ public class UserManager {
     }
   }
 
-
   public void addUser(String userName) {
     this.users.put(userName, new TodoThread(taskTxtCreator(userName)));
   }
