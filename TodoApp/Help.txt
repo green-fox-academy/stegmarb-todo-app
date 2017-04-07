@@ -1,8 +1,0 @@
-Help documentation:
-===================
-List all tasks:     -la
-Lists ending tasks: -l
-Add a new task:     -a "String"  //"String" - a task which should be added
-Remove a task:      -r int       //int - order number of task which should be removed
-Check the status:   -s int       //int - order number of task which should be checked
-Complete a task:    -c int       //int - order number of task which should be completed

@@ -1,6 +1,5 @@
 public class TodoThread extends TodoMethods {
   private String userName;
-  private String userPath = userName + ".txt";
 
   public void application(String[] todo) {
     if (todo.length == 1 && todo[0] == userName ) {
