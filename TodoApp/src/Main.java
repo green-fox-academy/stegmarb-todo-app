@@ -9,4 +9,3 @@ public class Main {
     user.application(args);
   }
 }
-

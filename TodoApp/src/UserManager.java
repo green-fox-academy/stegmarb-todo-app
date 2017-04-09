@@ -23,8 +23,8 @@ public class UserManager {
           }
         }
         if (count == 0) {
-            addUser(userName);
-            userList.add(userName);
+          addUser(userName);
+          userList.add(userName);
         } else {
           this.users.put(userName, new TodoThread(userName + ".txt"));
         }
@@ -38,6 +38,7 @@ public class UserManager {
       System.out.println("Users file can not be loaded");
     }
   }
+
 
   public void addUser(String userName) {
     this.users.put(userName, new TodoThread(taskTxtCreator(userName)));

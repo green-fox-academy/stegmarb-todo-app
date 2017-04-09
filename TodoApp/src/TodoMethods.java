@@ -42,22 +42,18 @@ public class TodoMethods {
     try {
       List<String> taskList = Files.readAllLines(tasks);
       List<String> pendingTasks = new ArrayList<>();
-      if (taskList.size() == 0) {
-        System.out.println("No todos for today! :)");
-      } else {
-        for (int i = 0; i < taskList.size(); i++) {
-          String[] subList = taskList.get(i).split(SEPARATOR);
-          if (subList[1].equals("pending")) {
-            pendingTasks.add(taskList.get(i));
-          }
+      for (int i = 0; i < taskList.size(); i++) {
+        String[] subList = taskList.get(i).split(SEPARATOR);
+        if (subList[1].equals("pending")) {
+          pendingTasks.add(taskList.get(i));
         }
-        Files.write(Paths.get("PendingTasks.txt"), pendingTasks);
-        for (int i = 0; i < pendingTasks.size(); i++) {
-          System.out.println(i + 1 + " - " + isDoneToString(pendingTasks.get(i)) + " " + onlyTask(pendingTasks.get(i)));
-        }
-        System.out.println("\n!!!Don't forget, that the removal option takes into account the numbering of AllTasks!!!\n" +
-                "Call the -la option before using it!!!");
       }
+      Files.write(Paths.get("PendingTasks.txt"), pendingTasks);
+      for (int i = 0; i < pendingTasks.size(); i++) {
+        System.out.println(i + 1 + " - " + isDoneToString(pendingTasks.get(i)) + " " + onlyTask(pendingTasks.get(i)));
+      }
+      System.out.println("\n!!!Don't forget, that the removal option takes into account the numbering of AllTasks!!!\n" +
+              "Call the -la option before using it!!!");
     }catch(IOException e) {
       System.out.println("Something wrong with tasks file");
     }
@@ -74,7 +70,6 @@ public class TodoMethods {
         taskList.add(finalTask);
       }
       Files.write(tasks, taskList);
-      System.out.println("Task has been added!");
     } catch (IOException e) {
       System.out.println("Something wrong with tasks file");
     }
@@ -91,7 +86,6 @@ public class TodoMethods {
           taskList.remove(task - 1);
         }
         Files.write(tasks, taskList);
-        System.out.println("Task has been removed");
       } catch (IOException e) {
         System.out.println("Something wrong with tasks file");
       }
